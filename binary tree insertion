@@ -1,3 +1,5 @@
+/* Implemting binary tree to store the structure members */
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<sys/types.h>
