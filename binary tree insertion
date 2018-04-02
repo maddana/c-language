@@ -1,0 +1,113 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<fcntl.h>
+struct credit_card
+{
+        char name[25];
+        int id;
+        char address[50];
+        char dob[12];
+        char email_id[50];
+        long long int card_no;
+        char expire_date[6];
+        char issue_date[6];
+        char cvv[4];
+        struct credit_card *l;
+        struct credit_card *r;
+};
+struct credit_card *root,*temptr,*newptr,*prev,*store;
+insert()
+{
+        newptr=malloc(sizeof(struct credit_card));
+        printf("Enter the name:\n");
+        scanf("%s",&newptr->name);
+        printf("Enter the id:\n");
+        scanf("%d",&newptr->id);
+        printf("Enter the address:\n");
+        scanf("%s",&newptr->address);
+        printf("Enter the date of birth:\n");
+        scanf("%s",&newptr->dob);
+        printf("Enter the email id:\n");
+        scanf("%s",&newptr->email_id);
+        printf("Enter the card no:\n");
+        scanf("%lld",&newptr->card_no);
+        printf("Enter the issue date:\n");
+        scanf("%s",&newptr->issue_date);
+        printf("Enter the expire_date:\n");
+        scanf("%s",&newptr->expire_date);
+        printf("Enter the cvv:\n");
+        scanf("%s",&newptr->cvv);
+        newptr->l=NULL;
+        newptr->r=NULL;
+        if(root==NULL)
+        {
+                root=newptr;
+        }
+        else
+        {
+                temptr=root;
+
+                while(temptr!=NULL)
+                {
+                        if(newptr<temptr)
+                        {
+                                prev=temptr;
+                                temptr=temptr->l;
+                        }
+                        else
+                        {
+                                prev=temptr;
+                                temptr=temptr->r;
+                        }
+                        if(newptr<prev)
+                        {
+                                prev->l=newptr;
+                        }
+                        else
+                        {
+                                prev->r=newptr;
+                        }
+                }
+        }
+}
+
+print(struct credit_card *p)
+{
+        if(p->l)
+                print(p->l);
+        printf("%s\n%ld\n",p->name,p->card_no);
+        if(p->r)
+                print(p->r);
+}
+
+
+main()
+{
+        int i,n,x,fp;
+        char buf[sizeof(struct credit_card)];
+        printf("Enter your choice:");
+        scanf("%d",&ch);
+        while(1)
+        {
+                switch(ch)
+                {
+                        case 1:
+                                printf("ENter value");
+                                scanf("%d",&n);
+                                fp=open("card.txt",O_APPEND|O_RDWR,S_IRWXU);
+                                for(i=0;i<n;i++)
+                                {
+                                        insert();
+                                }
+                                print(root);
+                                write(fp,newptr,sizeof(struct credit_card));
+                                printf("size of struct %d\n",sizeof(struct credit_card));
+                                break;
+                        case 2:
+                                displayhash();
+                                break;
+	         default:
+		  printf(“Enter valid option”);
+		  break;    }
